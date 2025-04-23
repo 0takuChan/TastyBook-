@@ -63,7 +63,7 @@ const MenuList: React.FC = () => {
   }, [menus, selectedType]);
 
   useEffect(() => {
-    setCurrentPage(1); // รีเซ็ตหน้าเมื่อเปลี่ยนประเภท
+    setCurrentPage(1);
   }, [selectedType]);
 
   useEffect(() => {
@@ -84,12 +84,12 @@ const MenuList: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header and Subheader */}
+      
       <View style={styles.headerContainer}>
         <Text style={styles.header}>Tasty Book</Text>
         <Text style={styles.subHeader}>Welcome! A Variety Of Recipes Are Waiting For You.</Text>
 
-        {/* Tabs */}
+        
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -110,12 +110,12 @@ const MenuList: React.FC = () => {
         </ScrollView>
       </View>
 
-      {/* Menu Sections */}
+      
       <ScrollView style={styles.menuContainer}>
         {selectedType && <MenuSection menus={currentMenus} />}
       </ScrollView>
 
-      {/* Pagination */}
+      
       <View style={styles.paginationContainer}>
         <Pagination
           currentPage={currentPage}

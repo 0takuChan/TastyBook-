@@ -31,29 +31,27 @@ const CreateMenu: React.FC = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
 
-  // ฟังก์ชันในการดึงข้อมูลผู้ใช้จาก AsyncStorage โดยใช้ userId
   const getUserFromStorage = async () => {
     try {
-      const userId = await AsyncStorage.getItem('userId'); // ดึง userId จาก AsyncStorage
+      const userId = await AsyncStorage.getItem('userId'); 
       if (!userId) {
         alert('ไม่มีข้อมูลผู้ใช้');
         return null;
       }
-      return userId; // ส่งกลับ userId ที่ดึงจาก AsyncStorage
+      return userId; 
     } catch (error) {
       alert('มีข้อผิดพลาดในการดึงข้อมูลผู้ใช้');
       return null;
     }
   };
 
-  // ดึงเมนูทั้งหมดที่สร้างโดย creatorId
+  
   const fetchMenus = async () => {
     const creatorId = await getUserFromStorage();
     if (!creatorId) return;
   
     try {
-      const response = await axios.get<{ menus: Menu[]; total: number }>('http://10.0.2.2:5000/api/menus'); // ตรวจสอบข้อมูลที่ได้จาก API
-      console.log('Fetched menus:', response.data.menus); 
+      const response = await axios.get<{ menus: Menu[]; total: number }>('http://10.0.2.2:5000/api/menus'); 
       const filteredMenus = response.data.menus.filter(menu => menu.creator.id.toString() === creatorId);
       
       setMenus(filteredMenus);
@@ -65,7 +63,7 @@ const CreateMenu: React.FC = () => {
   const fetchTypes = async () => {
     try {
       const response = await axios.get('http://10.0.2.2:5000/api/types');
-      setTypes(response.data.types); // หรือ response.data แล้วแต่ API
+      setTypes(response.data.types);
     } catch (error) {
       alert('ไม่สามารถโหลดประเภทเมนูได้');
     }
@@ -73,35 +71,35 @@ const CreateMenu: React.FC = () => {
 
   useEffect(() => {
     fetchMenus();
-    fetchTypes(); // ดึงประเภทอาหารด้วย
-  }, []); // เมื่อคอมโพเนนต์โหลด จะเรียกใช้ fetchMenus
+    fetchTypes(); 
+  }, []); 
 
-  // ฟังก์ชันการสร้างเมนู
+
   const handleCreate = async (menuData: { name: string; ingredients: string; steps: string; typeId: string }) => {
     try {
-      // ดึง userId จาก AsyncStorage
+     
       const userId = await AsyncStorage.getItem('userId');
       if (!userId) {
         alert('ไม่พบข้อมูลผู้ใช้');
         return;
       }
 
-      // ส่งคำขอสร้างเมนูพร้อมกับ creatorId
+      
       await axios.post('http://10.0.2.2:5000/api/menus', {
         name: menuData.name,
         ingredients: menuData.ingredients,
         steps: menuData.steps,
         typeId: parseInt(menuData.typeId),
-        creatorId: Number(userId), // ส่ง creatorId ที่ดึงมาจาก AsyncStorage
+        creatorId: Number(userId),
       });
 
-      fetchMenus(); // ดึงเมนูใหม่หลังจากสร้าง
+      fetchMenus(); 
     } catch (error) {
       alert('มีข้อผิดพลาดในการสร้างเมนู');
     }
   };
 
-  // ฟังก์ชันการแก้ไขเมนู
+  
   const handleEdit = async (menuData: { name: string; ingredients: string; steps: string; typeId: string }) => {
     if (!selectedMenu) return;
     try {
@@ -109,13 +107,13 @@ const CreateMenu: React.FC = () => {
         ...menuData,
         typeId: parseInt(menuData.typeId),
       });
-      fetchMenus(); // ดึงเมนูใหม่หลังจากแก้ไข
+      fetchMenus(); 
     } catch (error) {
       alert('มีข้อผิดพลาดในการแก้ไขเมนู');
     }
   };
 
-  // ฟังก์ชันการลบเมนู
+
   const handleDelete = (menuId: number) => {
     Alert.alert('ยืนยันการลบ', 'คุณแน่ใจหรือไม่ว่าต้องการลบเมนูนี้?', [
       { text: 'ยกเลิก', style: 'cancel' },
@@ -125,7 +123,7 @@ const CreateMenu: React.FC = () => {
         onPress: async () => {
           try {
             await axios.delete(`http://10.0.2.2:5000/api/menus/${menuId}`);
-            fetchMenus(); // ดึงเมนูใหม่หลังจากลบ
+            fetchMenus(); 
           } catch (error) {
             alert('มีข้อผิดพลาดในการลบเมนู');
           }

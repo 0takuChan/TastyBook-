@@ -8,18 +8,17 @@ import axios from 'axios';
 export default function SignUp() {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [loading, setLoading] = useState(false); // เพิ่มสถานะโหลด
-
+  const [loading, setLoading] = useState(false); 
   const navigation = useNavigation();
 
   const handleSignUp = async () => {
-    // 🔎 ตรวจสอบค่าว่าง
+   
     if (!username.trim() || !email.trim()) {
       alert('กรุณากรอกข้อมูลให้ครบถ้วน');
       return;
     }
   
-    // 🔎 ตรวจสอบว่าอีเมลลงท้ายด้วย @gmail.com
+    
     if (!email.endsWith('@gmail.com')) {
       alert('อีเมลต้องลงท้ายด้วย @gmail.com');
       return;

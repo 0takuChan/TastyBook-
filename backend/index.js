@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
-const jwt = require('jsonwebtoken');  // เพิ่มการใช้ JWT
 require('dotenv').config();
 
 const app = express();
@@ -10,53 +9,18 @@ const prisma = new PrismaClient();
 app.use(cors());
 app.use(express.json());
 
-const authenticateToken = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1];  // ดึง token จาก header Authorization
-  if (!token) {
-    return res.status(401).json({ error: 'ไม่พบ token' });
-  }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ error: 'ไม่สามารถยืนยันตัวตนได้' });
-    }
-    req.user = user;  // เก็บข้อมูลผู้ใช้ที่ได้รับจากการตรวจสอบ token
-    next();
-  });
-};
-
-app.get('/api/users/current', authenticateToken, async (req, res) => {
-  try {
-    if (!req.user || !req.user.id) {
-      return res.status(400).json({ error: 'ไม่พบข้อมูลผู้ใช้ใน token' });
-    }
-    const user = await prisma.user.findUnique({
-      where: { id: req.user.id }, // req.user.id มาจาก payload ของ token
-    });
-
-    if (!user) {
-      return res.status(404).json({ error: 'ไม่พบผู้ใช้' });
-    }
-
-    res.json(user); // ส่งข้อมูลผู้ใช้กลับ
-  } catch (error) {
-    console.error('Error fetching user:', error);  // เพิ่มการ log ข้อผิดพลาดที่เกิดขึ้นในขณะดึงข้อมูลผู้ใช้
-    res.status(500).json({ error: 'มีข้อผิดพลาดในการดึงข้อมูลผู้ใช้' });
-  }
-});
-
-// เพิ่ม API อื่นๆ ตามเดิม
 app.get('/api/users', async (req, res) => {
   try {
     const users = await prisma.user.findMany();
     res.json(users);
   } catch (error) {
-    console.error('🛑 Prisma error:', error); // ← log error จริงๆ ออกมา
+    console.error('Prisma error:', error); 
     res.status(500).json({ error: 'มีข้อผิดพลาดในการดึงผู้ใช้' });
   }
 });
 
-// สร้างผู้ใช้ (สมัครสมาชิก)
+
 app.post('/api/users', async (req, res) => {
   const { username, email } = req.body;
   try {
@@ -69,7 +33,7 @@ app.post('/api/users', async (req, res) => {
   }
 });
 
-// ดึงข้อมูลผู้ใช้
+
 app.get('/api/users/:username/:email', async (req, res) => {
   const { username, email } = req.params;
   try {
@@ -77,7 +41,7 @@ app.get('/api/users/:username/:email', async (req, res) => {
       where: { email },
     });
 
-    // ตรวจสอบ username และ email
+
     if (user && user.username === username) {
       res.json(user);
     } else {
@@ -88,7 +52,7 @@ app.get('/api/users/:username/:email', async (req, res) => {
   }
 });
 
-// ดึงข้อมูลผู้ใช้ตามอีเมล
+
 app.get('/api/users/:email', async (req, res) => {
   const { email } = req.params;
   try {
@@ -106,13 +70,13 @@ app.get('/api/users/:email', async (req, res) => {
   }
 });
 
-// สร้างเมนู
+
 app.post('/api/menus', async (req, res) => {
   const { name, ingredients, steps, creatorId, typeId } = req.body;
   
   console.log('📥 ข้อมูลที่รับมา:', req.body);
 
-  // ตรวจสอบว่ามีข้อมูลครบไหม
+ 
   if (!name || !ingredients || !steps || !creatorId || !typeId) {
     return res.status(400).json({ error: 'ข้อมูลไม่ครบ กรุณาตรวจสอบอีกครั้ง' });
   }
@@ -123,12 +87,12 @@ app.post('/api/menus', async (req, res) => {
     });
     res.json(menu);
   } catch (error) {
-    console.error('❌ ข้อผิดพลาด:', error);
+    console.error('ข้อผิดพลาด:', error);
     res.status(500).json({ error: 'มีข้อผิดพลาดในการสร้างเมนู' });
   }
 });
 
-// ดึงเมนูทั้งหมด (พร้อม Pagination)
+
 app.get('/api/menus', async (req, res) => {
   const creatorId = parseInt(req.query.creatorId);
 
@@ -148,7 +112,7 @@ app.get('/api/menus', async (req, res) => {
   }
 });
 
-// ดึงประเภทเมนู
+
 app.get('/api/types', async (req, res) => {
   try {
     const types = await prisma.typeBook.findMany();
@@ -158,7 +122,6 @@ app.get('/api/types', async (req, res) => {
   }
 });
 
-// อัพเดตเมนู
 app.put('/api/menus/:id', async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, steps, typeId } = req.body;
@@ -173,7 +136,7 @@ app.put('/api/menus/:id', async (req, res) => {
   }
 });
 
-// ลบเมนู
+
 app.delete('/api/menus/:id', async (req, res) => {
   const { id } = req.params;
   try {

@@ -5,7 +5,7 @@ interface ButtonProps {
   title: string;
   onPress: () => void;
   disabled?: boolean;
-  color?: string; // tailwind-like เช่น "bg-orange-500"
+  color?: string; 
 }
 
 export default function Button({ title, onPress, disabled, color }: ButtonProps) {
@@ -31,7 +31,7 @@ function getColor(twColor?: string): string {
     'bg-green-500': '#10B981',
     'bg-red-500': '#EF4444',
   };
-  return map[twColor || ''] || '#F97316'; // fallback สีส้ม
+  return map[twColor || ''] || '#F97316'; 
 }
 
 const styles = StyleSheet.create({

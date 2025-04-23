@@ -13,27 +13,27 @@ export default function Layout() {
       <Stack.Screen 
         name="login" 
         component={Login} 
-        options={{ title: 'เข้าสู่ระบบ', headerShown: false }} // ซ่อน navigation bar หน้า login
+        options={{ title: 'เข้าสู่ระบบ', headerShown: false }} 
       />
       <Stack.Screen 
         name="signup" 
         component={SignUp} 
-        options={{ title: 'สมัครสมาชิก', headerShown: false }} // ซ่อน navigation bar หน้า signup
+        options={{ title: 'สมัครสมาชิก', headerShown: false }} 
       />
       <Stack.Screen 
         name="profile" 
         component={Profile} 
-        options={{ title: 'โปรไฟล์', headerShown: false }} // ซ่อน navigation bar หน้า profile
+        options={{ title: 'โปรไฟล์', headerShown: false }} 
       />
       <Stack.Screen 
         name="create-menu" 
         component={CreateMenu} 
-        options={{ title: 'สร้างเมนู', headerShown: false }} // ซ่อน navigation bar หน้า create-menu
+        options={{ title: 'สร้างเมนู', headerShown: false }} 
       />
       <Stack.Screen 
         name="menu-list" 
         component={MenuList} 
-        options={{ title: 'รายการเมนู', headerShown: false }} // ซ่อน navigation bar หน้า menu-list
+        options={{ title: 'รายการเมนู', headerShown: false }} 
       />
     </Stack.Navigator>
   );

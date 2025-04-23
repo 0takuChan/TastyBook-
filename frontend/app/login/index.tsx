@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // เพิ่มการใช้งาน useNavigation
+import { useNavigation } from '@react-navigation/native'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Input from '../components/Input';
 import Button from '../components/Button';
@@ -9,7 +9,7 @@ import axios from 'axios';
 export default function Login() {
   const [email, setEmail] = useState<string>('');
   const [username, setUsername] = useState<string>('');
-  const navigation = useNavigation(); // ใช้ useNavigation hook เพื่อเข้าถึง navigate
+  const navigation = useNavigation(); 
 
   const handleLogin = async () => {
     try {
@@ -18,14 +18,10 @@ export default function Login() {
       const response = await axios.get(`http://10.0.2.2:5000/api/users/${username}/${email}`);
 
       if (response.data) {
-        console.log('ผลลัพธ์ที่ได้:', response.data);
-
-        // 🔐 บันทึกอีเมลลง AsyncStorage
+        
         await AsyncStorage.setItem('userEmail', email);
         await AsyncStorage.setItem('userId', response.data.id.toString());
-
-        console.log('✅ บันทึก email เรียบร้อยใน AsyncStorage');
-        navigation.navigate('menu-list', { username, email }); // ใช้ navigate แทน
+        navigation.navigate('menu-list', { username, email });
       }
     } catch (error) {
       console.error('login error:', error);

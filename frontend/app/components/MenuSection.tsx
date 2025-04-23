@@ -41,7 +41,6 @@ const MenuSection: React.FC<MenuSectionProps> = ({ menus }) => {
         </View>
       ))}
 
-      {/* Modal for displaying menu details */}
       <MenuDetailModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}

@@ -27,7 +27,7 @@ const MenuDetailModal: React.FC<MenuDetailModalProps> = ({ visible, onClose, men
       onRequestClose={onClose}
     >
       <View style={styles.modalContainer}>
-        {/* Header */}
+        
         <View style={styles.modalHeader}>
           <TouchableOpacity onPress={onClose} style={styles.backButton}>
             <Ionicons name="arrow-back" size={24} color="#4B5563" />
@@ -36,16 +36,16 @@ const MenuDetailModal: React.FC<MenuDetailModalProps> = ({ visible, onClose, men
           <Text style={styles.modalTitle}>{menu.name}</Text>
         </View>
 
-        {/* Content */}
+      
         <ScrollView style={styles.modalContent}>
-          {/* Type and Creator */}
+          
           <View style={styles.infoSection}>
             <Text style={styles.infoText}>
               {menu.type} • {menu.creator}
             </Text>
           </View>
 
-          {/* Ingredients */}
+          
           <Text style={styles.sectionTitle}>ส่วนผสม</Text>
           {menu.ingredients.split('\n').map((item, index) => (
             <Text key={index} style={styles.listItem}>
@@ -53,7 +53,7 @@ const MenuDetailModal: React.FC<MenuDetailModalProps> = ({ visible, onClose, men
             </Text>
           ))}
 
-          {/* Steps */}
+          
           <Text style={styles.sectionTitle}>วิธีทำ</Text>
           {menu.steps.split('\n').map((step, index) => (
             <Text key={index} style={styles.listItem}>

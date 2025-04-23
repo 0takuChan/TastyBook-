@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native'; // นำเข้าฟังก์ชั่น useNavigation
+import { useNavigation } from '@react-navigation/native'; 
 import Button from '../components/Button';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
@@ -13,7 +13,7 @@ interface User {
 
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
-  const navigation = useNavigation(); // ใช้ useNavigation hook เพื่อเข้าถึง navigation
+  const navigation = useNavigation(); 
 
   useEffect(() => {
     const fetchUserFromStorage = async () => {
@@ -23,15 +23,13 @@ export default function Profile() {
 
         if (storedEmail) {
           const response = await axios.get(`http://10.0.2.2:5000/api/users/${storedEmail}`);
-          console.log('✅ ได้ข้อมูลจาก API:', response.data);
 
           setUser(response.data);
         } else {
-          console.log('❌ ไม่พบ email ใน AsyncStorage');
-          navigation.navigate('login'); // ใช้ navigation.navigate() เพื่อไปหน้า login
+          
+          navigation.navigate('login'); 
         }
       } catch (error) {
-        console.error('🚨 API Error:', error);
         Alert.alert('เกิดข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลผู้ใช้ได้');
       }
     };
@@ -41,7 +39,7 @@ export default function Profile() {
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem('userEmail');
-    navigation.navigate('login');  // ใช้ชื่อ 'login' ที่ตรงกับ Stack.Navigator
+    navigation.navigate('login');  
   };
 
   return (
@@ -82,7 +80,7 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     marginTop: 20,
-    backgroundColor: '#EF4444', // สีแดง
+    backgroundColor: '#EF4444',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

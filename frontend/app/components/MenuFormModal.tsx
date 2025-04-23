@@ -24,7 +24,7 @@ const MenuFormModal: React.FC<MenuFormModalProps> = ({ visible, onClose, onSave,
   const [types, setTypes] = useState<Type[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // กรณีแก้ไข: ตั้งค่าจาก initialData
+
   useEffect(() => {
     if (initialData && visible) {
       setName(initialData.name);
@@ -34,7 +34,7 @@ const MenuFormModal: React.FC<MenuFormModalProps> = ({ visible, onClose, onSave,
     }
   }, [initialData, visible]);
 
-  // กรณีเพิ่มใหม่: ล้างค่าฟอร์ม
+ 
   useEffect(() => {
     if (!initialData && visible) {
       setName('');
@@ -44,7 +44,6 @@ const MenuFormModal: React.FC<MenuFormModalProps> = ({ visible, onClose, onSave,
     }
   }, [visible, initialData]);
 
-  // โหลดประเภท
   useEffect(() => {
     if (visible) {
       fetchTypes();
@@ -54,7 +53,7 @@ const MenuFormModal: React.FC<MenuFormModalProps> = ({ visible, onClose, onSave,
   const fetchTypes = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://10.0.2.2:5000/api/types'); // 🔁 เปลี่ยน URL ให้ตรงกับ backend
+      const res = await axios.get('http://10.0.2.2:5000/api/types');
       setTypes(res.data);
     } catch (err) {
       console.error('Error fetching types:', err);
