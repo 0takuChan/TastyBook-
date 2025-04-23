@@ -74,7 +74,7 @@ app.get('/api/users/:email', async (req, res) => {
 app.post('/api/menus', async (req, res) => {
   const { name, ingredients, steps, creatorId, typeId } = req.body;
   
-  console.log('📥 ข้อมูลที่รับมา:', req.body);
+  
 
  
   if (!name || !ingredients || !steps || !creatorId || !typeId) {

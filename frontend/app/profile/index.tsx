@@ -19,7 +19,6 @@ export default function Profile() {
     const fetchUserFromStorage = async () => {
       try {
         const storedEmail = await AsyncStorage.getItem('userEmail');
-        console.log('📦 Email จาก AsyncStorage:', storedEmail);
 
         if (storedEmail) {
           const response = await axios.get(`http://10.0.2.2:5000/api/users/${storedEmail}`);

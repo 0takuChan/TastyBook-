@@ -13,7 +13,6 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      console.log('กำลังส่งคำขอ login:', username, email);
 
       const response = await axios.get(`http://10.0.2.2:5000/api/users/${username}/${email}`);
 
